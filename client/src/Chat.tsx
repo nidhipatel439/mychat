@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Socket } from "socket.io-client";
+import { BsFillPlayCircleFill } from "react-icons/bs";
 
 export const Chat: React.FC<{
   room: string;
@@ -39,46 +40,61 @@ export const Chat: React.FC<{
   });
 
   return (
-    <div className="chat-window">
-      <div className="chat-header">
-        <p>Live Chat</p>
-      </div>
-      <div className="chat-body">
-        <div className="message-container">
-          {messageList.map((messageContent) => {
+    <>
+      <div className="border-2 border-gray-700">
+        <div className="h-72 overflow-y-auto flex flex-col p-2">
+          {messageList.map((messageContent, index) => {
             return (
               <div
-                className="message"
-                id={username === messageContent.author ? "you" : "other"}
+                key={index}
+                className={` w-full py-1 ${
+                  username === messageContent.author
+                    ? "text-right"
+                    : "text-left"
+                }`}
               >
-                <div>
-                  <div className="message-content">
-                    <p>{messageContent.message}</p>
-                  </div>
-                  <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
-                    <p id="author">{messageContent.author}</p>
-                  </div>
-                </div>
+                <p className="font-bold capitalize">
+                  {username === messageContent.author
+                    ? "You"
+                    : messageContent.author}
+                </p>
+                <p
+                  className={`${
+                    username === messageContent.author
+                      ? "bg-gray-700 pl-4 pr-2 text-white"
+                      : "bg-slate-300 pr-4 pl-2 text-black"
+                  }   inline-block py-1 rounded`}
+                >
+                  {messageContent.message}
+                </p>
+                <p className="text-light italic text-sm">
+                  {messageContent.time}
+                </p>
               </div>
             );
           })}
         </div>
+        <div className="border-t-2 border-gray-700 flex justify-between items-center">
+          <input
+            type="text"
+            value={currentMessage}
+            placeholder="Hey..."
+            className="p-2 w-full focus:outline-none"
+            onChange={(event) => {
+              setCurrentMessage(event.target.value);
+            }}
+            onKeyPress={(event) => {
+              event.key === "Enter" && sendMessage();
+            }}
+          />
+          <button
+            className="p-2 border-l-2 border-gray-700 text-gray-700 hover:text-gray-600"
+            onClick={sendMessage}
+          >
+            <BsFillPlayCircleFill size={25} />
+          </button>
+        </div>
       </div>
-      <div className="chat-footer">
-        <input
-          type="text"
-          value={currentMessage}
-          placeholder="Hey..."
-          onChange={(event) => {
-            setCurrentMessage(event.target.value);
-          }}
-          onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}
-        />
-        <button onClick={sendMessage}>&#9658;</button>
-      </div>
-    </div>
+    </>
   );
 };

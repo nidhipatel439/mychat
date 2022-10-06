@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BsXCircle } from "react-icons/bs";
 import { io } from "socket.io-client";
 import { Chat } from "./Chat";
 
@@ -16,29 +17,57 @@ export const App: React.FC = () => {
     }
   };
   return (
-    <div>
-      {!showChat ? (
-        <div>
-          <h3>Join A Chat</h3>
-          <input
-            type="text"
-            placeholder="John..."
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Room ID..."
-            onChange={(event) => {
-              setRoom(event.target.value);
-            }}
-          />
-          <button onClick={joinRoom}>Join A Room</button>
-        </div>
-      ) : (
-        <Chat socket={socket} username={username} room={room} />
-      )}
-    </div>
+    <>
+      <div className="flex flex-col h-screen justify-center w-full max-w-lg mx-auto">
+        {!showChat ? (
+          <>
+            <div className="bg-gray-700 text-white text-center p-2">
+              <p className="text-2xl">MyChat</p>
+            </div>
+            <div>
+              <div className="border-2 border-gray-700 border-t-0 text-center p-4">
+                <input
+                  type="text"
+                  name="name"
+                  className="w-full block my-2 border border-gray-700 p-2 rounded"
+                  placeholder="John..."
+                  onChange={(event) => {
+                    setUsername(event.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  name="roomid"
+                  className="w-full block my-2 border border-gray-700 p-2 rounded"
+                  placeholder="Room ID..."
+                  onChange={(event) => {
+                    setRoom(event.target.value);
+                  }}
+                />
+                <button
+                  className="bg-gray-700 text-white py-2 px-6 my-2 hover:bg-gray-600"
+                  onClick={joinRoom}
+                >
+                  Join A Room
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="bg-gray-700 text-white text-center p-2 flex justify-between items-center">
+              <p className="text-2xl">Live chat</p>
+              <button onClick={() => setShowChat(false)}>
+                <BsXCircle />
+              </button>
+            </div>
+            <Chat socket={socket} username={username} room={room} />
+          </>
+        )}
+      </div>
+      <div className="absolute bottom-0 right-0 left-0 border-t-2 border-gray-700 text-center p-1">
+        <p>&copy; Nidhi Patel 2022</p>
+      </div>
+    </>
   );
 };
