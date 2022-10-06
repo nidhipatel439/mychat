@@ -42,7 +42,7 @@ export const Chat: React.FC<{
   return (
     <>
       <div className="border-2 border-gray-700">
-        <div className="h-72 overflow-y-auto flex flex-col p-2">
+        <div className="md:h-72 h-96 overflow-y-auto flex flex-col p-2">
           {messageList.map((messageContent, index) => {
             return (
               <div

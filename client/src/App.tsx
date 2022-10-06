@@ -18,7 +18,7 @@ export const App: React.FC = () => {
   };
   return (
     <>
-      <div className="flex flex-col h-screen justify-center w-full max-w-lg mx-auto">
+      <div className="flex flex-col md:h-screen justify-start mt-16 md:mt-0 md:justify-center w-full max-w-lg mx-auto px-4 md:px-0">
         {!showChat ? (
           <>
             <div className="bg-gray-700 text-white text-center p-2">
