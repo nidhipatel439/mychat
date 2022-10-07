@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 
@@ -7,6 +7,7 @@ export const Chat: React.FC<{
   username: string;
   socket: Socket;
 }> = ({ room, username, socket }) => {
+  const dummy = useRef<HTMLDivElement | null>(null);
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState<
     {
@@ -39,6 +40,10 @@ export const Chat: React.FC<{
     setMessageList([...messageList, data]);
   });
 
+  useEffect(() => {
+    dummy?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList.length]);
+
   return (
     <>
       <div className="border-2 border-gray-700">
@@ -47,7 +52,7 @@ export const Chat: React.FC<{
             return (
               <div
                 key={index}
-                className={` w-full py-1 ${
+                className={` w-full ${
                   username === messageContent.author
                     ? "text-right"
                     : "text-left"
@@ -73,6 +78,7 @@ export const Chat: React.FC<{
               </div>
             );
           })}
+          <div ref={dummy}></div>
         </div>
         <div className="border-t-2 border-gray-700 flex justify-between items-center">
           <input
