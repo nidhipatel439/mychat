@@ -68,7 +68,11 @@ export const App: React.FC = () => {
       <div className="absolute bottom-0 right-0 left-0 border-t-2 border-gray-700 text-center p-1">
         <p>
           &copy;{" "}
-          <a href="https://nidhi-patel.netlify.com/" target="_blank">
+          <a
+            href="https://nidhi-patel.netlify.com/"
+            className="font-bold text-red-500"
+            target="_blank"
+          >
             Nidhi Patel
           </a>{" "}
           2022
